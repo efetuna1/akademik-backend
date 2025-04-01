@@ -9,5 +9,3 @@ router.get("/test", (req, res)=>{
 router.post("/register", UserController.register);
 
 export default router;
-
-//vfgbffgfgfggfgf
