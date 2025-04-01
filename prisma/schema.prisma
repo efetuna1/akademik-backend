@@ -1,0 +1,231 @@
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADAY
+  ADMIN
+  YONETICI
+  JURI_UYESI
+}
+
+model Kullanici {
+  id                      Int                     @id @default(autoincrement())
+  ad                      String                  @db.VarChar(100)
+  soyad                   String                  @db.VarChar(100)
+  parola                  String
+  tcKimlikNo              String                  @unique @db.VarChar(11)
+  role                    Role                    @default(ADAY)
+  birimId                 Int?
+  kayitTarihi             DateTime                @default(now())
+
+  birim                   AkademikBirim?          @relation(fields: [birimId], references: [id])
+  AtamaBasvurular         AtamaBasvuru[]
+  juriDegerlendirmeleri   JuriDegerlendirme[]     @relation("JuriRelation")
+  adayDegerlendirmeleri   JuriDegerlendirme[]     @relation("AdayRelation")
+  AkademikFaaliyetler     AkademikFaaliyet[]
+  Projeler                Proje[]
+  Yayinlar                Yayin[]
+  IdariGorevler           IdariGorev[]
+  Oduller                 Odul[]
+  Makaleler               Makale[]
+  Kitaplar                Kitap[]
+  Atiflar                 Atif[]
+  EgitimOgretim           EgitimOgretim[]
+  TezDanismanligi         TezDanismanligi[]
+  Patentler               Patent[]
+  Etkinlikler             Etkinlik[]
+  ToplamPuanlama          ToplamPuanlama?
+}
+
+model AkademikBirim {
+  id                Int               @id @default(autoincrement())
+  birimAdi          String            @db.VarChar(255)
+  ustBirimId        Int?
+  ustBirim          AkademikBirim?    @relation("BirimUst", fields: [ustBirimId], references: [id])
+  altBirimler       AkademikBirim[]   @relation("BirimUst")
+  
+  Kullanici         Kullanici[]
+  AtamaBasvurular   AtamaBasvuru[]
+}
+
+model AkademikKadro {
+  id                Int               @id @default(autoincrement())
+  kadroAdi          String            @db.VarChar(100)
+  minPuan           Int               @default(0)
+
+  AtamaBasvurular   AtamaBasvuru[]
+}
+
+model AkademikFaaliyet {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  kategori          String            @db.VarChar(50)
+  aciklama          String
+  puan              Int               @default(0)
+  tarih             DateTime          @default(now())
+}
+
+model AtamaBasvuru {
+  id                Int               @id @default(autoincrement())
+  kullaniciId       Int
+  birimId           Int
+  kadroId           Int
+  durum             String            @db.VarChar(50)
+  juriRaporu        String?
+  basvuruTarihi     DateTime          @default(now())
+
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  birim             AkademikBirim     @relation(fields: [birimId], references: [id])
+  kadro             AkademikKadro     @relation(fields: [kadroId], references: [id])
+}
+
+model JuriDegerlendirme {
+  id                Int               @id @default(autoincrement())
+  juri              Kullanici         @relation("JuriRelation", fields: [juriId], references: [id])
+  juriId            Int
+  aday              Kullanici         @relation("AdayRelation", fields: [adayId], references: [id])
+  adayId            Int
+  rapor             String
+  puan              Int               @default(0)
+  tarih             DateTime          @default(now())
+}
+
+// Not: Kullanıcı modelinde juriDegerlendirmeleri ve adayDegerlendirmeleri 
+// alanları bu iki ilişkinin ters tarafını temsil etmektedir.
+
+model Proje {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  tur               String            @db.VarChar(50)
+  butce             Decimal           @db.Decimal(12,2)
+  sureAy            Int
+  baslamaTarihi     DateTime
+  bitisTarihi       DateTime?
+}
+
+model Yayin {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  yayinAdi          String            @db.VarChar(255)
+  tur               String            @db.VarChar(50)
+  atifSayisi        Int               @default(0)
+  qSinifi           String            @db.VarChar(5)
+  doi               String?           @unique @db.VarChar(100)
+  yayinTarihi       DateTime
+}
+
+model IdariGorev {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  gorev             String            @db.VarChar(255)
+  baslamaTarihi     DateTime
+  bitisTarihi       DateTime?
+}
+
+model Odul {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  odulAdi           String            @db.VarChar(255)
+  kurum             String?
+  yil               Int
+}
+
+model Makale {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  yayinAdi          String            @db.VarChar(255)
+  dergiAdi          String            @db.VarChar(255)
+  ciltNo            String?
+  sayfaNo           String?
+  yil               Int
+  indeks            String            @db.VarChar(20)
+  qSinifi           String            @db.VarChar(5)
+}
+
+model Kitap {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  kitapAdi          String            @db.VarChar(255)
+  yayinevi          String            @db.VarChar(255)
+  baskiSayisi       Int
+  yayinYeri         String?
+  yil               Int
+  tur               String            @db.VarChar(50)
+  uluslararasi      Boolean           @default(false)
+}
+
+model Atif {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  atifYapanEser     String            @db.VarChar(255)
+  atifYapanYazar    String?
+  atifSayisi        Int               @default(1)
+  indeks            String            @db.VarChar(20)
+}
+
+model EgitimOgretim {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  dersAdi           String            @db.VarChar(255)
+  programAdi        String?
+  donem             String            @db.VarChar(50)
+  yil               Int
+  yabanciDil        Boolean           @default(false)
+}
+
+model TezDanismanligi {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  ogrenciAdi        String            @db.VarChar(255)
+  tezAdi            String            @db.VarChar(255)
+  enstitu           String?
+  yil               Int
+  seviyye           String            @db.VarChar(50)
+  esDanisman        Boolean           @default(false)
+}
+
+model Patent {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  patentAdi         String            @db.VarChar(255)
+  yil               Int
+  tur               String            @db.VarChar(50)
+  lisanslandimi     Boolean           @default(false)
+}
+
+model Etkinlik {
+  id                Int               @id @default(autoincrement())
+  kullanici         Kullanici         @relation(fields: [kullaniciId], references: [id])
+  kullaniciId       Int
+  etkinlikAdi       String            @db.VarChar(255)
+  tur               String            @db.VarChar(50)
+  tarih             DateTime
+  yer               String?
+  uluslararasi      Boolean           @default(false)
+}
+
+model ToplamPuanlama {
+  id          Int         @id @default(autoincrement())
+  kullaniciId Int         @unique
+  puan        Int         @default(0)
+
+  kullanici   Kullanici   @relation(fields: [kullaniciId], references: [id])
+}
