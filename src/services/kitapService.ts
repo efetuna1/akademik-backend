@@ -1,0 +1,18 @@
+import { PrismaClient, KitapTuru } from "@prisma/client";
+
+const prisma = new PrismaClient();
+
+export const KitaplarService = {
+  async create(data: {
+    kullaniciId: number;
+    kitapAdi: string;
+    yayinevi: string;
+    baskiSayisi: number;
+    yayinYeri?: string;
+    yil: number;
+    tur: KitapTuru;
+    puan?: number;
+  }) {
+    return await prisma.kitaplar.create({ data });
+  }
+};

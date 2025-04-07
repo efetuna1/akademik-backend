@@ -4,6 +4,7 @@ import { ilanOlustur } from "../controllers/ilanController";
 import { createMakale } from "../controllers/makaleController";
 import { createToplanti } from "../controllers/toplantıController";
 import { createFaaliyet } from "../controllers/faaliyetController";
+import { createKitap } from "../controllers/kitapController";
 const router = Router();
 
 router.get("/test", (req, res)=>{
@@ -16,5 +17,6 @@ router.post("/ilanlar", ilanOlustur);
 router.post("/makaleEkle", createMakale);
 router.post("/toplantiEkle", createToplanti);
 router.post("/faaliyetEkle", createFaaliyet);
+router.post("/kitapEkle", createKitap);
 
 export default router;
