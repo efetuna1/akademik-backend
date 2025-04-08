@@ -1,27 +1,33 @@
-// controllers/ilanController.ts
-import { Request, Response } from "express";
-import { createIlan } from "../services/ilanService";
+import { Request, Response } from 'express';
+import { IlanlarService } from '../services/ilanService';
 
-export const ilanOlustur = async (req: Request, res: Response) => {
-  const { baslik, aciklama, kadro, baslangicTarihi, bitisTarihi, kriterler } = req.body;
-
-  if (!baslik || !aciklama || !kadro || !baslangicTarihi || !bitisTarihi || !kriterler) {
-    res.status(400).json({ message: "Tüm alanlar zorunludur" });
-  }
+export const createIlan = async (req: Request, res: Response) => {
+  const {
+    baslik,
+    aciklama,
+    kadro,
+    baslangicTarihi,
+    bitisTarihi,
+    kriterler,
+    durum
+  } = req.body;
 
   try {
-    const yeniIlan = await createIlan({
+    const ilan = await IlanlarService.create({
       baslik,
       aciklama,
       kadro,
       baslangicTarihi: new Date(baslangicTarihi),
       bitisTarihi: new Date(bitisTarihi),
       kriterler,
+      durum
     });
 
-    res.status(201).json(yeniIlan);
+    res.status(201).json({
+      message: 'İlan başarıyla oluşturuldu.',
+      ilan
+    });
   } catch (error) {
-    console.error("İlan oluşturulamadı:", error);
-    res.status(500).json({ message: "Sunucu hatası" });
+    res.status(500).json({ message: `Bir hata oluştu: ${error.message}` });
   }
 };

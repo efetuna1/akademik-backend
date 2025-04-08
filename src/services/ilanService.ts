@@ -1,23 +1,21 @@
-import prisma from "../utils/prisma";
+import { PrismaClient, IlanDurum, KadroTuru } from '@prisma/client';
 
-interface CreateIlanInput {
-  baslik: string;
-  aciklama: string;
-  kadro: string; 
-  baslangicTarihi: Date;
-  bitisTarihi: Date;
-  kriterler: string;
-}
+const prisma = new PrismaClient();
 
-export const createIlan = async (data: CreateIlanInput) => {
-  return await prisma.ilanlar.create({
-    data: {
-      baslik: data.baslik,
-      aciklama: data.aciklama,
-      kadro: data.kadro as any,
-      baslangicTarihi: data.baslangicTarihi,
-      bitisTarihi: data.bitisTarihi,
-      kriterler: data.kriterler,
-    },
-  });
+export const IlanlarService = {
+  async create(data: {
+    baslik: string;
+    aciklama: string;
+    kadro: KadroTuru;
+    baslangicTarihi: Date;
+    bitisTarihi: Date;
+    kriterler: string;
+    durum?: IlanDurum;
+  }) {
+    return await prisma.ilanlar.create({
+      data: {
+        ...data
+      }
+    });
+  }
 };
