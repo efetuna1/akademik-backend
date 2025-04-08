@@ -8,6 +8,7 @@ import { createAtif } from "../controllers/atifController";
 import { createTez } from "../controllers/tezController";
 import { createPatent } from "../controllers/patentController";
 import { createIlan } from "../controllers/ilanController";
+import { basvuruYap } from "../controllers/basvuruController";
 
 const router = Router();
 
@@ -25,5 +26,6 @@ router.post("/atifEkle", createAtif);
 router.post("/tezEkle", createTez);
 router.post("/patentEkle", createPatent);
 router.post("/ilanEkle", createIlan);
+router.post("/basvuruYap", basvuruYap);
 
 export default router;
