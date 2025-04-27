@@ -31,3 +31,12 @@ export const createIlan = async (req: Request, res: Response) => {
     res.status(500).json({ message: `Bir hata oluştu: ${error.message}` });
   }
 };
+export const getIlanlar = async (req: Request, res: Response) => {
+  try {
+    const ilanlar = await IlanlarService.getilan();
+    res.status(200).json(ilanlar);
+  } catch (error) {
+    console.error("İlanları çekerken hata oluştu:", error);
+    res.status(500).json({ message: "İlanlar getirilemedi." });
+  }
+};
