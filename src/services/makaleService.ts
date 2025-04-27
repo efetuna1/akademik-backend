@@ -10,7 +10,8 @@ export const addMakale = async (
   ciltNo: string | null,
   sayfaNo: string | null,
   yil: number,
-  indeksTuru: IndeksTuru
+  indeksTuru: IndeksTuru,
+  puan?: number
 ) => {
   try {
     // Kullanıcıyı kontrol et
@@ -33,7 +34,8 @@ export const addMakale = async (
         ciltNo,
         sayfaNo,
         yil,
-        indeksTuru
+        indeksTuru,
+        puan
       }
     });
 

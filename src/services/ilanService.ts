@@ -17,5 +17,13 @@ export const IlanlarService = {
         ...data
       }
     });
-  }
-};
+  },
+
+  async getilan() {
+    return await prisma.ilanlar.findMany({
+      orderBy: {
+        baslangicTarihi: "desc", 
+      },
+    });
+  },
+}

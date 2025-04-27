@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { EgitimOgretimService } from "../services/faaliyetService";
+import { EgitimOgretimService } from "../services/eduService";
 
 export const createFaaliyet = async(req: Request, res: Response) =>{
     try {

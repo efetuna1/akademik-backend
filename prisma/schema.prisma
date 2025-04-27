@@ -171,8 +171,8 @@ model Atiflar {
 enum DersTuru {
   ONLISANS_LISANS
   ONLISANS_LISANS_YD
-  LİSANSUSTU
-  LİSANSUSTU_YD
+  LISANSUSTU
+  LISANSUSTU_YD
 }
 
 enum DersDonemi{

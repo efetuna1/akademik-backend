@@ -11,7 +11,8 @@ export const createMakale = async (req: Request, res: Response) => {
     ciltNo,
     sayfaNo,
     yil,
-    indeksTuru
+    indeksTuru,
+    puan
   }: {
     kullaniciId: number;
     yayinAdi: string;
@@ -20,10 +21,11 @@ export const createMakale = async (req: Request, res: Response) => {
     sayfaNo: string | null;
     yil: number;
     indeksTuru: IndeksTuru;
+    puan;
   } = req.body;
 
   try {
-    const newMakale = await addMakale(kullaniciId, yayinAdi, dergiAdi, ciltNo, sayfaNo, yil, indeksTuru);
+    const newMakale = await addMakale(kullaniciId, yayinAdi, dergiAdi, ciltNo, sayfaNo, yil, indeksTuru, puan);
     res.status(201).json({ message: 'Makale başarıyla eklendi.', makale: newMakale });
   } catch (error) {
     res.status(500).json({ message: error.message });
