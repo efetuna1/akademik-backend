@@ -16,6 +16,8 @@ import { createGorev } from "../controllers/gorevController";
 import { createSanat } from "../controllers/sanatController";
 import { getIlanlar } from "../controllers/ilanController";
 import { getTotalPuan } from "../controllers/toplamPuanlama";
+import { getJuriBasvurular} from "../controllers/juriController";
+import { validateIdentityController } from "../controllers/tcVerifyController";
 
 
 const router = Router();
@@ -41,8 +43,11 @@ router.post("/gorevEkle", createGorev);
 router.post("/hakemEkle", createHakem);
 router.post("/odulEkle", createOdul);
 
+router.post("/kimlikDogrula", validateIdentityController);
+
 router.post("/basvuruYap", basvuruYap);
 router.get("/ilanGetir", getIlanlar);
 router.get("/toplamPuan", getTotalPuan);
+router.get("/juriBasvuru", getJuriBasvurular);
 
 export default router;
