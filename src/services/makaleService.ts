@@ -3,6 +3,12 @@ import { PrismaClient, IndeksTuru } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+export const getMakalelerByKullaniciId = async (kullaniciId: number) => {
+  return prisma.makaleler.findMany({
+    where: { kullaniciId },
+  });
+};
+
 export const addMakale = async (
   kullaniciId: number,
   yayinAdi: string,

@@ -1,5 +1,23 @@
 import { Request, Response } from "express";
 import { ArastirmaProjeleriService } from "../services/projeService";
+import { getProjelerByKullaniciId } from "../services/projeService";
+
+export const getProjeler = async (req: Request, res: Response) => {
+  const kullaniciId = parseInt(req.query.kullaniciId as string);
+
+  if (!kullaniciId) {
+    res.status(400).json({ message: "Kullanıcı ID eksik." });
+    return;
+  }
+
+  try {
+    const projeler = await getProjelerByKullaniciId(kullaniciId);
+    res.status(200).json(projeler);
+  } catch (error) {
+    console.error("Projeler getirme hatası:", error);
+    res.status(500).json({ message: "Projeler alınamadı." });
+  }
+};
 
 export const createProje = async (req: Request, res: Response) => {
   try {
