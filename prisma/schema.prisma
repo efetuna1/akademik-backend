@@ -119,6 +119,7 @@ model Makaleler {
   sayfaNo     String?   @db.VarChar(50)
   yil         Int
   puan        Float?
+  dosyaYolu   String?     
   indeksTuru  IndeksTuru
   createdAt   DateTime  @default(now())
 }

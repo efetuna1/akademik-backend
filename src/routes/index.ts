@@ -8,7 +8,7 @@ import { createAtif } from "../controllers/atifController";
 import { createTez } from "../controllers/tezController";
 import { createPatent } from "../controllers/patentController";
 import { createIlan } from "../controllers/ilanController";
-import { basvuruYap } from "../controllers/basvuruController";
+import { basvuruYap, getAdayBasvuru } from "../controllers/basvuruController";
 import { createProje } from "../controllers/projeController";
 import { createHakem } from "../controllers/hakemController";
 import { createOdul } from "../controllers/odulController";
@@ -49,5 +49,6 @@ router.post("/basvuruYap", basvuruYap);
 router.get("/ilanGetir", getIlanlar);
 router.get("/toplamPuan", getTotalPuan);
 router.get("/juriBasvuru", getJuriBasvurular);
+router.get("/adayBasvuru", getAdayBasvuru);
 
 export default router;
