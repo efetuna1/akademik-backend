@@ -2,6 +2,14 @@ import { PrismaClient, KitapTuru } from "@prisma/client";
 
 const prisma = new PrismaClient();
 
+
+export const getKitaplarByKullaniciId = async (kullaniciId: number) => {
+  return prisma.kitaplar.findMany({
+    where: { kullaniciId },
+    orderBy: { yil: 'desc' },
+  });
+};
+
 export const KitaplarService = {
   async create(data: {
     kullaniciId: number;

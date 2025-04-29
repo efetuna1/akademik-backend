@@ -11,6 +11,11 @@ export const EditorlukFaaliyetleriService = {
     puan?: number;
   }) {
     return await prisma.editorlukFaaliyetleri.create({ data });
-  },
-
   }
+};
+
+export const getEditorlukByKullaniciId = async (kullaniciId: number) => {
+  return await prisma.editorlukFaaliyetleri.findMany({
+    where: { kullaniciId }
+  });
+};

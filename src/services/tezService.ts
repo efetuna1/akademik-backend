@@ -20,3 +20,9 @@ export const TezYoneticiligiService = {
     });
   },
 };
+
+export const getTezlerByKullaniciId = async (kullaniciId: number) => {
+  return await prisma.tezYoneticiligi.findMany({
+    where: { kullaniciId }
+  });
+};

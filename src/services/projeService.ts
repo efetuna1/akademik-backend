@@ -15,6 +15,11 @@ export const ArastirmaProjeleriService = {
     puan?: number;
   }) {
     return await prisma.arastirmaProjeleri.create({ data });
-  },
+  }
+};
 
-    }
+export const getProjelerByKullaniciId = async (kullaniciId: number) => {
+  return await prisma.arastirmaProjeleri.findMany({
+    where: { kullaniciId }
+  });
+};

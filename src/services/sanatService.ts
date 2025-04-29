@@ -13,3 +13,9 @@ export const GuzelSanatlarFaaliyetleriService = {
     return await prisma.guzelSanatlarFaaliyetleri.create({ data });
   }
 };
+
+export const getSanatlarByKullaniciId = async (kullaniciId: number) => {
+  return await prisma.guzelSanatlarFaaliyetleri.findMany({
+    where: { kullaniciId },
+  });
+};

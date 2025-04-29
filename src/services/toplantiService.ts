@@ -1,46 +1,48 @@
-// services/toplantiService.ts
 import { PrismaClient, EtkinlikTuru } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-interface ToplantiInput {
-  kullaniciId: number;
-  konferansAdi?: string;
-  bildiriAdi?: string;
-  etkinlikTuru: EtkinlikTuru;
-  sayfaSayisi?: number;
-  tarih: Date;
-  yer?: string;
-  puan?: number;
-}
+export const getToplantilarByKullaniciId = async (kullaniciId: number) => {
+  return prisma.bilimselToplantilar.findMany({
+    where: { kullaniciId },
+    orderBy: { tarih: 'desc' },
+  });
+};
 
-export const addToplanti = async (input: ToplantiInput) => {
+export const addToplanti = async (
+  kullaniciId: number,
+  konferansAdi: string | undefined,
+  bildiriAdi: string | undefined,
+  etkinlikTuru: EtkinlikTuru,
+  sayfaSayisi: number | undefined,
+  tarih: Date,
+  yer: string | undefined,
+  puan?: number
+) => {
   try {
-    // Kullanıcı kontrolü
     const kullanici = await prisma.kullanici.findUnique({
-      where: { id: input.kullaniciId }
+      where: { id: kullaniciId }
     });
 
     if (!kullanici) {
-      throw new Error('Geçerli bir kullanıcı bulunamadı.');
+      throw new Error("Geçerli bir kullanıcı bulunamadı.");
     }
 
-    // Toplantı ekleme işlemi
     const yeniToplanti = await prisma.bilimselToplantilar.create({
       data: {
-        kullaniciId: input.kullaniciId,
-        konferansAdi: input.konferansAdi,
-        bildiriAdi: input.bildiriAdi,
-        etkinlikTuru: input.etkinlikTuru,
-        sayfaSayisi: input.sayfaSayisi,
-        tarih: input.tarih,
-        yer: input.yer,
-        puan: input.puan
+        kullaniciId,
+        konferansAdi,
+        bildiriAdi,
+        etkinlikTuru,
+        sayfaSayisi,
+        tarih,
+        yer,
+        puan,
       }
     });
 
     return yeniToplanti;
-  } catch (error: any) {
+  } catch (error) {
     throw new Error(`Toplantı eklenirken bir hata oluştu: ${error.message}`);
   }
 };

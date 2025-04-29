@@ -14,4 +14,9 @@ export const EgitimOgretimService = {
   }) {
     return await prisma.egitimOgretim.create({ data });
   },
-}
+};
+export const getEgitimByKullaniciId = async (kullaniciId: number) => {
+  return await prisma.egitimOgretim.findMany({
+    where: { kullaniciId }
+  });
+};
