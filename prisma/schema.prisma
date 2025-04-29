@@ -40,6 +40,8 @@ model Kullanici {
   GuzelSanatlarFaaliyetleri GuzelSanatlarFaaliyetleri[]
   IdariGorevler           IdariGorevler[]
   ToplamPuanlama          ToplamPuanlama?
+
+   ilanlar                 Ilanlar[]               @relation("IlanJuriRelation")
 }
 
 
@@ -71,6 +73,8 @@ model Ilanlar {
   durum           IlanDurum    @default(ACIK)
   basvuruSayisi   Int          @default(0)
   basvurular      Basvurular[]
+
+  juri            Kullanici[]  @relation("IlanJuriRelation")
 }
 
 model Basvurular {
