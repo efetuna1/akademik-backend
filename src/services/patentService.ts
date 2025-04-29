@@ -16,5 +16,10 @@ export const PatentlerService = {
         ...data
       }
     });
-  },
+  }
+};
+export const getPatentlerByKullaniciId = async (kullaniciId: number) => {
+  return await prisma.patentler.findMany({
+    where: { kullaniciId }
+  });
 };

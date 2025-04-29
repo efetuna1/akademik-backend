@@ -12,6 +12,11 @@ export const OdullerService = {
   }) {
     return await prisma.oduller.create({ data });
 
-  },
+  }
+};
 
+export const getOdullerByKullaniciId = async (kullaniciId: number) => {
+  return await prisma.oduller.findMany({
+    where: { kullaniciId }
+  });
 };

@@ -13,5 +13,11 @@ export const GorevService = {
     puan?: number;
   }) {
     return await prisma.idariGorevler.create({ data });
-  },
+  }
+};
+
+export const getGorevlerByKullaniciId = async (kullaniciId: number) => {
+  return await prisma.idariGorevler.findMany({
+    where: { kullaniciId }
+  });
 };
