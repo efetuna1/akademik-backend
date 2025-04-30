@@ -1,7 +1,8 @@
 // POST /api/juriBasvurular
-import { Request, Response } from 'express';
+import { Request, Response, RequestHandler } from "express";
 import prisma from '../utils/prisma';
 import jwt from 'jsonwebtoken';
+
 
 export const getJuriBasvurular = async (req: Request, res: Response) => {
   const { userId } = req.query;  // Extract userId from query params
@@ -21,6 +22,7 @@ export const getJuriBasvurular = async (req: Request, res: Response) => {
               include: {
                 kullanici: {
                   select: {
+                    id: true,
                     ad: true,
                     soyad: true,
                     tcKimlikNo: true,
@@ -44,19 +46,87 @@ export const getJuriBasvurular = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Sunucu hatası' });
   }
 };
-// Başvuruyu değerlendirme işlemi
-export const updateBasvuruDurum = async (req, res) => {
-  const { basvuruId } = req.params;
-  const { durum } = req.body; // Değerlendirilen durum (Örneğin, 'KABUL', 'REDDİ')
+
+
+
+export const createJuriDegerlendirme: RequestHandler = async (req: Request, res: Response) => {
+  const { juriId, adayId, rapor, durum } = req.body;
+
+  if (!juriId || !adayId || !rapor || !durum) {
+    res.status(400).json({ message: "Tüm alanlar zorunludur." });
+  }
 
   try {
-    const basvuru = await prisma.basvurular.update({
-      where: { id: Number(basvuruId) },
-      data: { durum },
+    await prisma.juriDegerlendirme.create({
+      data: {
+        juriId: Number(juriId),
+        adayId: Number(adayId),
+        rapor,
+      }
     });
 
-    res.status(200).json(basvuru); // Güncellenmiş başvuru bilgisini döndür
+    await prisma.basvurular.updateMany({
+      where: {
+        kullaniciId: Number(adayId)
+      },
+      data: {
+        durum
+      }
+    });
+
+    res.status(201).json({ message: "Değerlendirme başarıyla kaydedildi." });
   } catch (error) {
-    res.status(500).json({ message: 'Başvuru durumu güncellenemedi.' });
+    console.error("Juri değerlendirme hatası:", error);
+    res.status(500).json({ message: "Sunucu hatası", error });
+  }
+};
+export const getAllJuriDegerlendirmeler = async (req: Request, res: Response) => {
+  try {
+    const degerlendirmeler = await prisma.juriDegerlendirme.findMany({
+      include: {
+        aday: {
+          select: {
+            id: true,
+            ad: true,
+            soyad: true,
+            tcKimlikNo: true,
+          },
+        },
+        juri: {
+          select: {
+            id: true,
+            ad: true,
+            soyad: true,
+          },
+        },
+      },
+      orderBy: {
+        tarih: 'desc',
+      },
+    });
+
+    const basvuruSonuclari = await prisma.basvurular.findMany({
+      include: {
+        kullanici: {
+          select: {
+            id: true,
+            ad: true,
+            soyad: true,
+            tcKimlikNo: true,
+          },
+        },
+        ilan: {
+          select: {
+            id: true,
+            baslik: true,
+          },
+        },
+      },
+    });
+
+    res.status(200).json({ degerlendirmeler, basvuruSonuclari });
+  } catch (error) {
+    console.error("Jüri değerlendirmeleri alınırken hata:", error);
+    res.status(500).json({ message: "Sunucu hatası", error });
   }
 };
