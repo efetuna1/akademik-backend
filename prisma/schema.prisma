@@ -340,66 +340,66 @@ model EditorlukFaaliyetleri {
   createdAt    DateTime     @default(now())
 }
 
-enum OdulTuru {
-  JURILI_ULUSLARARASI
-  TUBITAK_BILIM_OZEL_HIZMET
-  TUBA_AKADEMI_ODUL
-  TUBITAK_TESIK
-  TUBA_GEBIP_TESEP
-  JURILI_ULUSAL
-  JURI_DEGIL
-  INTERNATIONAL_YARIŞMA_BIRINCI
-  INTERNATIONAL_YARIŞMA_IKINCI
-  INTERNATIONAL_YARIŞMA_UCUNCU
-  NATIONAL_YARIŞMA_BIRINCI
-  NATIONAL_YARIŞMA_IKINCI
-  NATIONAL_YARIŞMA_UCUNCU
-  INTERNATIONAL_TOPLANTI
-  NATIONAL_TOPLANTI
-  INTERNATIONAL_SANAT_ODUL
-  NATIONAL_SANAT_ODUL
-  UNIVERSITE_KURUMSAL
-  BILIMSEL_ESER
-}
+  enum OdulTuru {
+    JURILI_ULUSLARARASI
+    TUBITAK_BILIM_OZEL_HIZMET
+    TUBA_AKADEMI_ODUL
+    TUBITAK_TESIK
+    TUBA_GEBIP_TESEP
+    JURILI_ULUSAL
+    JURI_DEGIL
+    INTERNATIONAL_YARIŞMA_BIRINCI
+    INTERNATIONAL_YARIŞMA_IKINCI
+    INTERNATIONAL_YARIŞMA_UCUNCU
+    NATIONAL_YARIŞMA_BIRINCI
+    NATIONAL_YARIŞMA_IKINCI
+    NATIONAL_YARIŞMA_UCUNCU
+    INTERNATIONAL_TOPLANTI
+    NATIONAL_TOPLANTI
+    INTERNATIONAL_SANAT_ODUL
+    NATIONAL_SANAT_ODUL
+    UNIVERSITE_KURUMSAL
+    BILIMSEL_ESER
+  }
 
-model Oduller {
-  id           Int        @id @default(autoincrement())
-  kullanici    Kullanici  @relation(fields: [kullaniciId], references: [id])
-  kullaniciId  Int
-  odulAdi      String     @db.VarChar(255)
-  odulTuru    OdulTuru
-  yil          Int
-  puan         Float?
-  createdAt    DateTime   @default(now())
-}
+  model Oduller {
+    id           Int        @id @default(autoincrement())
+    kullanici    Kullanici  @relation(fields: [kullaniciId], references: [id])
+    kullaniciId  Int
+    odulAdi      String     @db.VarChar(255)
+    odulTuru    OdulTuru
+    yil          Int
+    puan         Float?
+    createdAt    DateTime   @default(now())
+  }
 
-enum IdariGorevTuru {
-  I1
-  I2
-  I3
-  I4
-  I5
-  I6
-  I7
-  I8
-  I9
-  I10
-  I11
-  I12
-}
+  enum IdariGorevTuru {
+    I1
+    I2
+    I3
+    I4
+    I5
+    I6
+    I7
+    I8
+    I9
+    I10
+    I11
+    I12
+  }
 
-model IdariGorevler {
-  id             Int            @id @default(autoincrement())
-  kullanici      Kullanici      @relation(fields: [kullaniciId], references: [id])
-  kullaniciId    Int
-  gorevAdi       String         @db.VarChar(255)
-  gorevTuru      IdariGorevTuru
-  baslamaTarihi  DateTime
-  bitisTarihi    DateTime
-  sure           Int
-  puan           Float?
-  createdAt      DateTime       @default(now())
-}
+  model IdariGorevler {
+    id             Int            @id @default(autoincrement())
+    kullanici      Kullanici      @relation(fields: [kullaniciId], references: [id])
+    kullaniciId    Int
+    gorevAdi       String         @db.VarChar(255)
+    gorevTuru      IdariGorevTuru
+    baslamaTarihi  DateTime
+    bitisTarihi    DateTime
+    sure           Int
+    puan           Float?
+    createdAt      DateTime       @default(now())
+  }
 
 enum GuzelSanatlarFaaliyetTuru {
   GS1

@@ -62,7 +62,9 @@ export const getAdayCV: RequestHandler = async (req, res) => {
             editorluk,
             oduller,
             gorevler,
-            sanatFaaliyetleri
+            sanatFaaliyetleri,
+            kitaplar,
+            atiflar
         });
 
     } catch (error: any) {
