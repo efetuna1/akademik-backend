@@ -21,6 +21,8 @@ import { createGorev, getGorevler } from "../controllers/gorevController";
 import { createSanat, getSanatFaaliyetleri } from "../controllers/sanatController";
 import { getAdayCV } from "../controllers/adaycvController";
 import { assignJuryController } from "../controllers/yoneticiController";
+import { createJuriDegerlendirme, getAllJuriDegerlendirmeler } from "../controllers/juriController";
+
 
 
 
@@ -50,10 +52,12 @@ router.post("/odulEkle", createOdul);
 router.post("/kimlikDogrula", validateIdentityController);
 router.post("/basvuruYap", basvuruYap);
 router.post("/juriAta", assignJuryController);
+router.post("/juriDegerlendirme", createJuriDegerlendirme);
 
 router.get("/ilanGetir", getIlanlar);
 router.get("/toplamPuan", getTotalPuan);
 router.get("/juriBasvuru", getJuriBasvurular);
+router.get("/juriDegerlendirmeler", getAllJuriDegerlendirmeler);
 
 router.get("/adayMakaleler", getMakaleler);
 router.get("/adayToplantilar", getToplantilar);
