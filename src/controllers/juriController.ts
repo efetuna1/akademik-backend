@@ -1,11 +1,10 @@
-// POST /api/juriBasvurular
 import { Request, Response, RequestHandler } from "express";
 import prisma from '../utils/prisma';
 import jwt from 'jsonwebtoken';
 
 
 export const getJuriBasvurular = async (req: Request, res: Response) => {
-  const { userId } = req.query;  // Extract userId from query params
+  const { userId } = req.query;  
 
   if (!userId) {
     res.status(400).json({ message: 'User ID gerekli' });

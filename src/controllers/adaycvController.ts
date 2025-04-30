@@ -1,4 +1,3 @@
-// controllers/adayCvController.ts
 import { RequestHandler } from 'express';
 
 import { getMakalelerByKullaniciId } from '../services/makaleService';

@@ -1,4 +1,3 @@
-// services/makaleService.ts
 import { PrismaClient, IndeksTuru } from '@prisma/client';
 
 const prisma = new PrismaClient();

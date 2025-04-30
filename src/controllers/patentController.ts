@@ -1,4 +1,3 @@
-// controllers/patentlerController.ts
 import { Request, Response } from 'express';
 import { PatentlerService } from '../services/patentService';
 import { getPatentlerByKullaniciId } from '../services/patentService';
