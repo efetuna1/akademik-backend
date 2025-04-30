@@ -1,4 +1,3 @@
-// controllers/adayController.ts
 import { Request, Response } from 'express';
 import { createUser, loginUser } from '../services/userService';
 import jwt from 'jsonwebtoken';

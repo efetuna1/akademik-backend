@@ -1,4 +1,3 @@
-// services/patentlerService.ts
 import { PrismaClient, PatentTuru } from '@prisma/client';
 
 const prisma = new PrismaClient();

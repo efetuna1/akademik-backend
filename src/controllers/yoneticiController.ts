@@ -1,7 +1,6 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services/yoneticiService';
 
-// Kullanıcıyı jüriye atama işlemi
 export const assignJuryController = async (req: Request, res: Response) => {
   const { tcKimlikNo, jobPostId } = req.body;
 
