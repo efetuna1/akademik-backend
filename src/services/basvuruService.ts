@@ -14,5 +14,19 @@ export const BasvurularService = {
         durum: data.durum ?? BasvuruDurum.BEKLIYOR,
       },
     });
+  },
+  async findByKullaniciId(kullaniciId: number) {
+    return await prisma.basvurular.findMany({
+      where: {
+        kullaniciId: kullaniciId,   
+      },
+      include: {
+        ilan: true,                
+      },
+      orderBy: {
+        tarih: 'desc',             
+      },
+    });
   }
 };
+

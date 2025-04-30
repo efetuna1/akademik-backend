@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { createIlan } from "../controllers/ilanController";
-import { basvuruYap } from "../controllers/basvuruController";
+import { basvuruYap, getAdayBasvuru } from "../controllers/basvuruController";
 import { getIlanlar } from "../controllers/ilanController";
 import { getTotalPuan } from "../controllers/toplamPuanlama";
 import { getJuriBasvurular } from "../controllers/juriController";
@@ -20,7 +20,7 @@ import { createOdul, getOduller } from "../controllers/odulController";
 import { createGorev, getGorevler } from "../controllers/gorevController";
 import { createSanat, getSanatFaaliyetleri } from "../controllers/sanatController";
 import { getAdayCV } from "../controllers/adaycvController";
-
+import { assignJuryController } from "../controllers/yoneticiController";
 
 
 
@@ -49,6 +49,7 @@ router.post("/hakemEkle", createHakem);
 router.post("/odulEkle", createOdul);
 router.post("/kimlikDogrula", validateIdentityController);
 router.post("/basvuruYap", basvuruYap);
+router.post("/juriAta", assignJuryController);
 
 router.get("/ilanGetir", getIlanlar);
 router.get("/toplamPuan", getTotalPuan);
@@ -67,6 +68,6 @@ router.get("/adayOduller", getOduller);
 router.get("/adayGorevler", getGorevler);
 router.get("/adaySanatFaaliyetleri", getSanatFaaliyetleri);
 router.get("/adaycv", getAdayCV);
-
+router.get("/adayBasvuru", getAdayBasvuru);
 
 export default router;

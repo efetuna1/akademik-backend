@@ -17,10 +17,10 @@ export const addMakale = async (
   sayfaNo: string | null,
   yil: number,
   indeksTuru: IndeksTuru,
-  puan?: number
+  puan?: number,
+  dosyaYolu?: string    
 ) => {
   try {
-    // Kullanıcıyı kontrol et
     const kullanici = await prisma.kullanici.findUnique({
       where: {
         id: kullaniciId
@@ -31,17 +31,17 @@ export const addMakale = async (
       throw new Error('Geçerli bir kullanıcı bulunamadı.');
     }
 
-    // Makale ekleme işlemi
     const newMakale = await prisma.makaleler.create({
       data: {
-        kullaniciId,  // Kullanıcı ID'si ile ilişkilendirilmiş makale
+        kullaniciId,
         yayinAdi,
         dergiAdi,
         ciltNo,
         sayfaNo,
         yil,
         indeksTuru,
-        puan
+        puan,
+        dosyaYolu
       }
     });
 
